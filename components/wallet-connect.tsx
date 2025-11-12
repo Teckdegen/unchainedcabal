@@ -59,6 +59,22 @@ export default function WalletConnect() {
                         <span>{account.displayBalance ? ` (${account.displayBalance})` : ""}</span>
                       </div>
                     </button>
+                    <button
+                      onClick={() => {
+                        // Disconnect wallet
+                        if (typeof window !== 'undefined' && window.ethereum) {
+                          window.ethereum.request({
+                            method: 'wallet_revokePermissions',
+                            params: [{
+                              eth_accounts: {}
+                            }]
+                          }).catch(console.error);
+                        }
+                      }}
+                      className="w-full px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-500/50 text-red-400 rounded-lg transition-all duration-200 text-sm"
+                    >
+                      Disconnect Wallet
+                    </button>
                   </div>
                 )
               })()}

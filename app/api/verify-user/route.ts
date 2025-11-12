@@ -1,6 +1,5 @@
-import { createServerClient } from "@supabase/ssr"
 import { type NextRequest, NextResponse } from "next/server"
-import { cookies } from "next/headers"
+import { AUTHORIZED_WALLETS } from "@/lib/config"
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,33 +9,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Wallet address required" }, { status: 400 })
     }
 
-    const cookieStore = cookies()
-    const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll()
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
-          } catch {}
-        },
-      },
-    })
-
-    const { data, error } = await supabase
-      .from("authorized_users")
-      .select("wallet_address, has_joined")
-      .eq("wallet_address", wallet_address.toLowerCase())
-      .single()
-
-    if (error) {
-      return NextResponse.json({ authorized: false, has_joined: false }, { status: 200 })
-    }
+    // Check if wallet is in authorized list
+    const isAuthorized = AUTHORIZED_WALLETS.includes(wallet_address.toLowerCase())
+    
+    // For this simple implementation, we'll assume they haven't joined yet
+    // In a real implementation, you might want to track this in a file or database
+    const has_joined = false
 
     return NextResponse.json({
-      authorized: !!data,
-      has_joined: data?.has_joined || false,
+      authorized: isAuthorized,
+      has_joined: has_joined,
     })
   } catch (error) {
     console.error("Verification error:", error)

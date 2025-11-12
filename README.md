@@ -1,55 +1,46 @@
 # Unchained Cabal Portal
 
-A sleek Web3 access portal built with Next.js, RainbowKit, Wagmi, Supabase, and Telegram API integration.
+A sleek Web3 access portal built with Next.js, RainbowKit, Wagmi, and Telegram API integration.
 
 ## Features
 
 - **Wallet Connection**: Connect via MetaMask, WalletConnect, Coinbase Wallet
-- **Supabase Verification**: Check authorized wallet addresses
+- **Authorization Check**: Verify wallet addresses against hardcoded list
 - **Telegram Integration**: Generate one-time invite links to private groups
 - **Serverless**: Fully deployable on Vercel
 - **Black & Green Aesthetic**: Elegant, minimal design with typewriter animations
 
 ## Setup
 
-### 1. Database Setup
+### 1. Configuration
 
-Run the SQL migration in Supabase:
+Update the authorized wallets in [lib/config.ts](file:///c%3A/Users/user/OneDrive/Desktop/code/lib/config.ts):
 
-\`\`\`sql
-CREATE TABLE authorized_users (
-  id BIGSERIAL PRIMARY KEY,
-  wallet_address TEXT UNIQUE NOT NULL,
-  has_joined BOOLEAN DEFAULT FALSE,
-  invite_link TEXT,
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
-);
-\`\`\`
+```typescript
+export const AUTHORIZED_WALLETS = [
+  "0x1234567890123456789012345678901234567890", // Example wallet
+  // Add more wallet addresses here
+]
+```
 
 ### 2. Environment Variables
 
 Add to `.env.local`:
 
-\`\`\`bash
-NEXT_PUBLIC_SUPABASE_URL=your_url
-SUPABASE_SERVICE_ROLE_KEY=your_key
+```bash
 TELEGRAM_BOT_TOKEN=your_bot_token
 TELEGRAM_GROUP_ID=your_group_id
+TELEGRAM_ADMIN_ID=your_admin_id # Optional, defaults to 7087159119
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
-\`\`\`
-
-### 3. Deployment
-
-\`\`\`bash
-npm install
-npm run dev
-# Deploy to Vercel
-\`\`\`
+```
 
 ## How It Works
 
-1. User connects wallet → verified in Supabase
+1. User connects wallet → verified against hardcoded list
 2. If authorized → can generate one-time Telegram invite
 3. Telegram link expires in 10 minutes
-4. Wallet marked as `has_joined` to prevent repeat access
+4. Admin receives notification when user joins
+5. Remove user from config file after they join
+
+# Deploy to Vercel
+```
