@@ -2,9 +2,16 @@
 // Add wallet addresses here that should have access to the portal
 
 export const AUTHORIZED_WALLETS = [
-  // Example wallet addresses - replace with actual authorized wallets
-  // "0x1234567890123456789012345678901234567890",
-  // "0xabcdef1234567890abcdef1234567890abcdef12",
+  "0xf8e8CF6d5c860ba0430Bfcf52D589B9eAdC210eb",
+  "0xC3546d87DC92B052863F8A47D769671427F4bA26",
+  "0xa5741f9603570F4fA2857edA0e9AAaa11Aa79f6F",
+  "0x5A1173A4a46d41a3095f688B8424574D343EEcc5",
+  "0x49b010D84cDcdd34d1F3DC185d9a8b5134Ab79b1",
+  "0xc405e8d1797B373d0b09c90CFfb7AD723dbE0574",
+  "0xAD3F3c56B0eA9624a27fA1e3E0Dd9e3d7fEcf377",
+  "0x7b27286F384Cd6a5f0173D95bcb84725a20D27ca",
+  "0x2483cF53b04021f1a3A3569bCEF1aDc4C75237fF",
+  "0x838f11B16625740efF65Dbe6d010a36cB3618E13",
 ]
 
 // Telegram configuration
